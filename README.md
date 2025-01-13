@@ -44,9 +44,18 @@ This project leverages **ClinicalBERT**, a pre-trained transformer-based NLP mod
 
 ---
 
-## Installation
+## References
 
-1. **Clone the repository**:
-   ```bash
-   git clone https://github.com/your-repo-name/clinicalbert-pathology-classification.git
-   cd clinicalbert-pathology-classification
+### Articles and Literature
+1. Ribeiro, M. T., Singh, S., & Guestrin, C. (2016). "Why Should I Trust You?" Explaining the Predictions of Any Classifier. *Proceedings of the 22nd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining*. [Paper Link](https://dl.acm.org/doi/10.1145/2939672.2939778)
+2. Vaswani, A., Shazeer, N., Parmar, N., et al. (2017). Attention Is All You Need. *Advances in Neural Information Processing Systems (NeurIPS)*. [Paper Link](https://arxiv.org/abs/1706.03762)
+3. Devlin, J., Chang, M.-W., Lee, K., & Toutanova, K. (2018). BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding. *Proceedings of NAACL-HLT 2019*. [Paper Link](https://arxiv.org/abs/1810.04805)
+4. Lee, J., Yoon, W., Kim, S., et al. (2019). BioBERT: A Pre-trained Biomedical Language Representation Model for Biomedical Text Mining. *Bioinformatics*. [Paper Link](https://arxiv.org/abs/1901.08746)
+5. Huang, K., Altosaar, J., & Ranganath, R. (2020). ClinicalBERT: Improving Predictions of Hospital Readmissions with Clinical Notes. *Journal of the American Medical Informatics Association (JAMIA)*. [Paper Link](https://academic.oup.com/jamia/article/27/9/1464/5891901)
+
+### Data Sources
+1. The Cancer Genome Atlas (TCGA). GDC Data Portal. [Website](https://portal.gdc.cancer.gov/)
+
+### XAI Tools
+1. Ribeiro, M. T., Singh, S., & Guestrin, C. (2016). LIME (Local Interpretable Model-agnostic Explanations). *Proceedings of the 22nd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining*. [Tool Overview](https://github.com/marcotcr/lime)
+
