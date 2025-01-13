@@ -4,6 +4,8 @@
 
 ## Project Overview
 This project leverages **ClinicalBERT**, a pre-trained transformer-based NLP model, to classify unstructured pathology reports from **The Cancer Genome Atlas (TCGA)** into 18 distinct cancer types. By integrating Explainable AI (XAI) techniques like **LIME**, this system provides both accurate predictions and interpretable results, critical for clinical decision-making.
+
+
 ![image](https://github.com/user-attachments/assets/766d217c-5380-430c-971b-2747fea252fc)
 
 ---
