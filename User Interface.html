@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ClinicalBERT Prediction</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+        }
+
+        input[type="file"] {
+            display: block;
+            margin: 20px auto;
+            font-size: 16px;
+        }
+
+        button {
+            display: block;
+            margin: 0 auto;
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 18px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        #result {
+            margin-top: 30px;
+            display: none;
+        }
+
+        #result h2 {
+            color: #2c3e50;
+            text-align: center;
+        }
+
+        #prediction {
+            font-size: 20px;
+            font-weight: bold;
+            color: #27ae60;
+            text-align: center;
+        }
+
+        iframe {
+            width: 100%;
+            height: 500px;
+            border: 1px solid #ccc;
+            margin-top: 20px;
+        }
+
+        /* Loading Indicator Styles */
+        #loadingIndicator {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 18px;
+            font-weight: bold;
+            color: #3498db;
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Spinner Styles */
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3498db;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 10px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <h1>ClinicalBERT Prediction</h1>
+    <input type="file" id="pdfFile" accept="application/pdf"><br><br>
+    <button id="predictButton">Predict</button>
+
+    <!-- Loading Indicator -->
+    <div id="loadingIndicator">
+        <div class="spinner"></div>
+        <p>Loading, please wait...</p>
+    </div>
+
+    <div id="result" style="display: none;">
+        <h2>Prediction:</h2>
+        <p id="prediction"></p>
+        <h2>Explanation:</h2>
+        <iframe id="explanationFrame"></iframe>
+    </div>
+
+    <script>
+        document.getElementById("predictButton").addEventListener("click", async () => {
+            const fileInput = document.getElementById("pdfFile");
+            const file = fileInput.files[0];
+
+            if (!file) {
+                alert("Please select a PDF file.");
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append("file", file);
+
+            // Show loading indicator while waiting for response
+            document.getElementById("loadingIndicator").style.display = "block";
+            document.getElementById("result").style.display = "none";
+
+            try {
+                const response = await fetch("http://localhost:8002/predict/", {
+                    method: "POST",
+                    body: formData
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Error: ${response.statusText}`);
+                }
+
+                const data = await response.json();
+
+                // Hide loading indicator and show results
+                document.getElementById("loadingIndicator").style.display = "none";
+                document.getElementById("result").style.display = "block";
+
+                document.getElementById("prediction").textContent = data.predicted_class;
+
+                // Inject explanation HTML into the iframe
+                const explanationFrame = document.getElementById("explanationFrame");
+                const explanationDoc = explanationFrame.contentDocument || explanationFrame.contentWindow.document;
+                explanationDoc.open();
+                explanationDoc.write(data.explanation);
+                explanationDoc.close();
+
+            } catch (error) {
+                console.error("Error fetching prediction:", error);
+                alert("An error occurred. Check the console for details.");
+                // Hide loading indicator if error occurs
+                document.getElementById("loadingIndicator").style.display = "none";
+            }
+        });
+    </script>
+</body>
+</html>
